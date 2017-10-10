@@ -7,6 +7,15 @@
     <title>Copper test</title>
 </head>
 <body>
+    <div id="app">
+        <select v-model="osc1.type">
+            <option value="sine">Sine</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+            <option value="">Sine</option>
+        </select>
+        <input type="number" v-model="osc1.lfo">
+    </div>
     
 </body>
 <script src="https://unpkg.com/vue"></script>

@@ -82,6 +82,10 @@ export default class Copper {
         this.virtualKeyboard = new VirtualKeyboard(this.voiceAmount);
         //暂存在场voices
         this._voiceNumMap = {BLANK: 0};
+
+
+        //TODO 要给this.osc1.type搞个set。难道要给所有的属性都搞个set？
+        //set的时候，写入this.options，new voice的时候传入。
     }
 
     /*
@@ -104,7 +108,8 @@ export default class Copper {
                 return;
             }
             //通过则new voice
-            let voice = new Voice(audioCtx, copper._mainGain);
+            //TODO copper.options 里是要传入新改变的参数
+            let voice = new Voice(audioCtx, copper._mainGain, copper.options);
             //记录map
             copper._voiceNumMap[num] = voice;
             //发声

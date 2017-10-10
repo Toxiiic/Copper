@@ -1,5 +1,5 @@
 export default class Voice {
-    constructor (audioCtx, mainGain) {
+    constructor (audioCtx, mainGain, options={}) {
         console.log('new!');
         /* create */
         this._biquadFilter = audioCtx.createBiquadFilter();
