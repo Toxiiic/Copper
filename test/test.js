@@ -11,8 +11,9 @@ const vm = new Vue({
         }
     },
     computed: {
-        setOsc1Type: function (type) {
+        setOsc1Type: function () {
             copper.osc1.type = type;
+            copper.osc1.lfo = lfo
         }
     }
 });
