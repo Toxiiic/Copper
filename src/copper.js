@@ -89,7 +89,6 @@ export default class Copper {
             , mainGain: 1
             , reverb: 10
             , set [synthProp](val) {
-                
             }
 
         }
