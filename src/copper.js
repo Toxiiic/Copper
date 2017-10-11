@@ -60,13 +60,41 @@ const key2num = {
 //     };
 // }
 
-
+/**
+ * Copper的合成器参数
+ * osc
+ */
 export default class Copper {
     constructor () {
-        //copper参数
-        this.config = {
+        /* 合成器向外暴露的参数 */
+        this.synth = {
+            osc1: {
+                type: 'sine',
+            }
+            , osc2: {
+                type: 'sine',
+            }
+            , mix: 50
+            , lfo: 5
+            , filter: {
+                cutOff: 1000,
+                lfo: 0.1
+            }
+            , adsr: {
+                attack: 0.3,
+                decay: 0.5,
+                sustain: 0.6,
+                retain: 1
+            }
+            , mainGain: 1
+            , reverb: 10
+            , set [synthProp](val) {
+                
+            }
 
         }
+
+        
         //voice 的数量
         this.voiceAmount = 5;
 
