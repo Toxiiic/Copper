@@ -24,16 +24,28 @@ const key2num = {
     '9': 13,
     '0': 15,
     '=': 18,
-    'Q': 0,
-    'W': 2,
-    'E': 4,
-    'R': 5,
-    'T': 7,
-    'Y': 9,
-    'U': 11,
-    'I': 12,
-    'O': 14,
-    'P': 16
+    // 'Q': 0,
+    // 'W': 2,
+    // 'E': 4,
+    // 'R': 5,
+    // 'T': 7,
+    // 'Y': 9,
+    // 'U': 11,
+    // 'I': 12,
+    // 'O': 14,
+    // 'P': 16,
+    'a': -19,
+    's': -17,
+    'd': -15,
+    'f': -13,
+    'g': -12,
+    'h': -10,
+    'j': -8,
+    'k': -7,
+    'l': -5,
+    ';': -3,
+    '\'': -1
+
 }
 
 // function bindKeys(voices) {
@@ -66,18 +78,39 @@ const key2num = {
  */
 export default class Copper {
     constructor () {
+        //为了防止外部掉用函数导致函数内this不是copper
+        const copper = this;
         /* 合成器向外暴露的参数 */
         this.synth = {
             osc1: {
-                type: 'sine',
+                set type (val) {
+                    //1.新创建的voice的数据
+                    //2.当前voice要挨个更改
+                    for(let i in copper._numVoiceMap) {
+                        copper._numVoiceMap[i].type = val;
+                    }
+                }
             }
             , osc2: {
                 type: 'sine',
             }
-            , mix: 50
-            , lfo: 5
+            , set mix (val) {
+                // for(let i in copper._numVoiceMap) {
+                //     copper._numVoiceMap[i].type = value;
+                // }
+            }
+            , set lfo (val) {
+                for(let i in copper._numVoiceMap) {
+                    copper._numVoiceMap[i]._gainLfo.value = val;
+                    console.log(copper._numVoiceMap[i]._gainLfo.value);
+                }
+            }
             , filter: {
-                cutOff: 1000,
+                set cutOff (val) {
+                    for(let i in copper._numVoiceMap) {
+                        copper._numVoiceMap[i]._biquadFilter.frequency.value = val;
+                    }
+                },
                 lfo: 0.1
             }
             , adsr: {
@@ -88,8 +121,8 @@ export default class Copper {
             }
             , mainGain: 1
             , reverb: 10
-            , set [synthProp](val) {
-            }
+            // , set [synthProp](val) {
+            // }
 
         }
 
@@ -108,7 +141,7 @@ export default class Copper {
         //虚拟键盘
         this.virtualKeyboard = new VirtualKeyboard(this.voiceAmount);
         //暂存在场voices
-        this._voiceNumMap = {BLANK: 0};
+        this._numVoiceMap = {};
 
 
         //TODO 要给this.osc1.type搞个set。难道要给所有的属性都搞个set？
@@ -127,7 +160,7 @@ export default class Copper {
             let num = key2num[keyboardEvent.key];
             //是否已经被按下 是否已满max 是否是有声键，这三个都要判断且不通过的频率由高到低
             //效率重要，但是保持正确是原则。所以还是应该注意顺序的正确性
-            if(Object.keys(copper._voiceNumMap).includes(`${num}`) || num == undefined) {
+            if(Object.keys(copper._numVoiceMap).includes(`${num}`) || num == undefined) {
                 return;
             }
             let notFull = copper.virtualKeyboard.keyDown(num);
@@ -138,7 +171,7 @@ export default class Copper {
             //TODO copper.options 里是要传入新改变的参数
             let voice = new Voice(audioCtx, copper._mainGain, copper.options);
             //记录map
-            copper._voiceNumMap[num] = voice;
+            copper._numVoiceMap[num] = voice;
             //发声
             voice.noteOn(num);
         };
@@ -149,12 +182,16 @@ export default class Copper {
             }
             copper.virtualKeyboard.keyUp();
             // let voiceIndex = ;
-            copper._voiceNumMap[num].noteOff();
+            copper._numVoiceMap[num].noteOff();
             //踢出去
-            delete copper._voiceNumMap[num];
-
-            console.log(`off {voiceIndex}`);
+            delete copper._numVoiceMap[num];
         };
+    }
+
+    set (prop, value) {
+        for(let i in this._numVoiceMap) {
+            this._numVoiceMap[i][prop] = value;
+        }
     }
 }
 

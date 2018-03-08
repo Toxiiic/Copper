@@ -7,13 +7,14 @@ const vm = new Vue({
     , data: {
         osc1: {
             type: 'sine',
-            lfo: 5
         }
+        , lfo: 5
     },
     computed: {
         setOsc1Type: function () {
-            copper.osc1.type = type;
-            copper.osc1.lfo = lfo
+            copper.synth.osc1.type = this.osc1.type;
+            copper.synth.lfo = this.lfo;
+            // return copper.synth.lfo;
         }
     }
 });

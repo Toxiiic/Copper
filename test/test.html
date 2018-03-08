@@ -14,11 +14,12 @@
             <option value="square">Square</option>
             <option value="">Sine</option>
         </select>
-        <input type="number" v-model="osc1.lfo">
+        <input type="number" v-model="lfo">
+        {{setOsc1Type}}
     </div>
     
 </body>
-<script src="https://unpkg.com/vue"></script>
+<script src="./lib/vue.js"></script>
 <script src="../dist/copper.bundle.js"></script>
 <script src="./test.js"></script>
 </html>
