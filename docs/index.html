@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Copper test</title>
+</head>
+<body>
+    <div id="app">
+        <select v-model="osc1.type">
+            <option value="sine">Sine</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+            <option value="">Sine</option>
+        </select>
+        <input type="number" v-model="lfo">
+        {{setOsc1Type}}
+    </div>
+    
+</body>
+<script src="../test/lib/vue.js"></script>
+<script src="../dist/copper.bundle.js"></script>
+<script src="../test/test.js"></script>
+</html>
